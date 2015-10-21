@@ -14,3 +14,11 @@ The directory contains three scripts:
 
 ## Usage example
 
+
+## Results
+
+On a real dataset from drosophila (mapped to dm6). I compared the output from featurecounts and DEXSeq_Counts.
+
+#### Dispersion Estimates
+
+![](dispESt_combined.png) 
