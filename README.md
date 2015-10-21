@@ -14,7 +14,7 @@ The directory contains three scripts:
 
 ## Usage example
 
-1) Prepare annotation
+**1) Prepare annotation**
 
 
 ```bash
@@ -23,7 +23,7 @@ python dexseq_prepare_annotation2.py -f dm6_ens76.gtf dm6_ens76_flat.gff
 
 you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for featurecounts)
 
-2) Count using Subread (command line)
+**2) Count using Subread (command line)**
 
 
 ```bash
@@ -31,7 +31,7 @@ you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for f
 
 ```
 
-3) Convert format
+**3) Convert format**
 
 On command line, do:
 
@@ -40,7 +40,7 @@ On command line, do:
 Rscript Convert_SubreadOutput.R -f dm6_fCount.out -n "Cont_1,Cont_2,Test_1,Test_2" -o dex-like-output.out
 ```
 
-4) load into DEXSeq
+**4) load into DEXSeq**
 
 In R do:
 
