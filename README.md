@@ -14,6 +14,43 @@ The directory contains three scripts:
 
 ## Usage example
 
+1) Prepare annotation
+
+
+```bash
+python dexseq_prepare_annotation2.py -f dm6_ens76.gtf dm6_ens76_flat.gff
+```
+
+you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for featurecounts)
+
+2) Count using Subread (command line)
+
+
+```bash
+/path/to/subread-1.4.6-p2/bin/featureCounts -f -s 2 -p -T 40 -F GTF -a dm6_ens76_flat.gff -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
+
+```
+
+3) Convert format
+
+On command line, do:
+
+
+```bash
+Rscript Convert_SubreadOutput.R -f dm6_fCount.out -n "Cont_1,Cont_2,Test_1,Test_2" -o dex-like-output.out
+```
+
+4) load into DEXSeq
+
+In R do:
+
+
+```r
+source("load_SubreadOutput.R")
+samp <- data.frame(row.names = c("cont_1","cont_2","test_1","test_2"), condition = rep(c("control","trt"),each=2))
+dxd.fc <- DEXSeqDataSetFromFeatureCounts("dex-like-output.out",
+                                         flattenedfile = "dm6_ens76_flat.gtf",sampleData = samp)
+```
 
 ## Results
 
