@@ -21,4 +21,4 @@ On a real dataset from drosophila (mapped to dm6). I compared the output from fe
 
 #### Dispersion Estimates
 
-![](dispESt_combined.png) 
+![](./images/dispESt_combined.png) 
