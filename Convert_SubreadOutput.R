@@ -1,4 +1,3 @@
-#!/package/R-3.2.0/bin/Rscript
 ## Read FeatureCount output and load into DEXSeq or convert to DEXSeq acceptable format
 ## (c) Vivek Bhardwaj (bhardwaj@ie-freiburg.mpg.de)
 
