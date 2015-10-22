@@ -54,8 +54,18 @@ dxd.fc <- DEXSeqDataSetFromFeatureCounts("dex-like-output.out",
 
 ## Results
 
-On a real dataset from drosophila (mapped to dm6). I compared the output from featurecounts and DEXSeq_Counts.
+On a real dataset from drosophila (mapped to dm6). I compared the output from featurecounts (two modes) and DEXSeq_Counts.
+
+In **unique** mode, fragments overlapping multiple features are not counted, while in **multi** mode, they are counted.
 
 #### Dispersion Estimates
 
-![](./images/dispESt_combined.png) 
+<img src="./images/dispESt_combined.png", width=1000, height=800>
+
+#### Results
+
+**Number of differentially expressed exons with 10% FDR**
+
+<img src="./images/overlaps_DEX-FC.png" , width=400, height=400>
+
+
