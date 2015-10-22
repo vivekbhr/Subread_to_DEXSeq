@@ -1,5 +1,5 @@
 ## Read FeatureCount output and load into DEXSeq or convert to DEXSeq acceptable format
-## (c) Vivek Bhardwaj (bhardwaj@ie-freiburg.mpg.de)
+## Author : Vivek Bhardwaj (bhardwaj@ie-freiburg.mpg.de). Feel free to use as GPLv3.
 
 options(warn = -1)
 suppressPackageStartupMessages({
