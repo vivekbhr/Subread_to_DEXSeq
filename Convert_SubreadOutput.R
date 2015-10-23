@@ -45,8 +45,8 @@ count_exons <- function(fcout,samplenames){
 
 #suppressWarnings({
 #  suppressMessages({
-  #compiler::cmpfun(count_exons) -> count_exons # compile the function
-  #}) 
+#        compiler::cmpfun(count_exons) -> count_exons # compile the function
+#  }) 
 #})
 
 ## writeback the output
