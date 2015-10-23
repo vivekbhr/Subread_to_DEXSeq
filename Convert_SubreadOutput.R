@@ -19,7 +19,7 @@ fcout <- argv$fcout
 samplenames <- argv$names # samplenames seperated by comma ,
 outfile <- argv$outfile
 out <- argv$out
-
+print("branch faster")
 ## Read and count exons
 count_exons <- function(fcout,samplenames){
   # read the sorted Fcount output (excluding header and comment line)
@@ -27,8 +27,9 @@ count_exons <- function(fcout,samplenames){
   colnames(df) <- paste0("V",1:ncol(df))
   # add a count for exon number and create new df
   matrix(ncol = ncol(df)) -> oldDF
+  
   for(i in unique(df[,1])){ # for each unique gene id in the file
-    filter(df,V1 == i) %>% mutate(V1 = paste0(V1,":",sprintf("%03.0f",1:nrow(.)))) %>% rbind(oldDF,.) -> oldDF 
+        filter(df,V1 == i) %>% mutate(V1 = paste0(V1,":",sprintf("%03.0f",1:nrow(.)))) %>% rbind(oldDF,.) -> oldDF
     # add exon number
   }
   oldDF <- as.data.frame(oldDF)
@@ -40,13 +41,14 @@ count_exons <- function(fcout,samplenames){
   return(oldDF[2:nrow(oldDF),])
 }
 
-suppressWarnings({
-  suppressMessages({
-  compiler::cmpfun(count_exons) -> count_exons # compile the function
-  }) 
-})
+#suppressWarnings({
+#  suppressMessages({
+  #compiler::cmpfun(count_exons) -> count_exons # compile the function
+  #}) 
+#})
 
 ## writeback the output
+system.time({
 if(!(is.null(outfile))){
   count_exons(fcout = fcout, samplenames = samplenames) %>%
     write.table(outfile,quote = FALSE,sep = "\t",row.names = F) # test_like-dex.out
@@ -54,3 +56,4 @@ if(!(is.null(outfile))){
   } else {
   stop("please provide output filename")
   }
+})
