@@ -47,6 +47,7 @@ suppressWarnings({
 })
 
 ## writeback the output
+system.time({
 if(!(is.null(outfile))){
   count_exons(fcout = fcout, samplenames = samplenames) %>%
     write.table(outfile,quote = FALSE,sep = "\t",row.names = F) # test_like-dex.out
@@ -54,3 +55,4 @@ if(!(is.null(outfile))){
   } else {
   stop("please provide output filename")
   }
+})
