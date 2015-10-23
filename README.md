@@ -33,6 +33,8 @@ you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for f
 
 **3) Convert format**
 
+*These scripts require dplyr, argparser, and DEXSeq installed in your R..*
+
 On command line, do:
 
 
@@ -64,7 +66,7 @@ In **unique** mode, fragments overlapping multiple features are not counted, whi
 
 #### Results
 
-**Number of differentially expressed exons with 10% FDR**
+**Number of differentially expressed exons with 10% FDR**. The output from featurecounts is highly similar to DEXSeq_Count, when we count the multi-feature overlapping reads **(-O option)**. 
 
 <img src="./images/overlaps_DEX-FC.png" , width=400, height=400>
 
