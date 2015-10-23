@@ -26,19 +26,21 @@ count_exons <- function(fcout,samplenames){
   read.table(fcout,skip = 2) %>% dplyr::arrange(V1,V3,V4) %>% dplyr::select(-(V2:V6)) -> df
   colnames(df) <- paste0("V",1:ncol(df))
   # add a count for exon number and create new df
-  matrix(ncol = ncol(df)) -> oldDF
-  
-  for(i in unique(df[,1])){ # for each unique gene id in the file
-        filter(df,V1 == i) %>% mutate(V1 = paste0(V1,":",sprintf("%03.0f",1:nrow(.)))) %>% rbind(oldDF,.) -> oldDF
+  genes <- unique(df[,1])
+  num <- length(genes)
+  oldDF <- vector("list",num)
+  for(i in 1:num){ # for each unique gene id in the file
+        filter(df,V1 == genes[i]) %>% mutate(V1 = paste0(V1,":",sprintf("%03.0f",1:nrow(.)))) -> oldDF[[i]]
     # add exon number
   }
-  oldDF <- as.data.frame(oldDF)
+  oldDF <- do.call(rbind,oldDF)
   # remove 1st empty line and print out
   if(!(is.null(samplenames))){
     unlist(strsplit(samplenames,",")) -> samplenames
     colnames(oldDF) <- c("Geneid",samplenames)
   }
-  return(oldDF[2:nrow(oldDF),])
+  #return(oldDF[2:nrow(oldDF),])
+  return(oldDF)
 }
 
 #suppressWarnings({
