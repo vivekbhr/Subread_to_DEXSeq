@@ -40,12 +40,6 @@ count_exons <- function(fcout,samplenames){
   return(oldDF[2:nrow(oldDF),])
 }
 
-suppressWarnings({
-  suppressMessages({
-  compiler::cmpfun(count_exons) -> count_exons # compile the function
-  }) 
-})
-
 ## writeback the output
 system.time({
 if(!(is.null(outfile))){
