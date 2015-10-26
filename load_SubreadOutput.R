@@ -1,6 +1,6 @@
 
 ## Load Fcount output from : DEXSeq_after_Fcount.R into DEXSeq
-## Author : Vivek Bhardwaj (bhardwaj@ie-freiburg.mpg.de). Feel free to use as GPLv3.
+## Copyright 2015 Vivek Bhardwaj (bhardwaj@ie-freiburg.mpg.de). Licence: GPLv3.
 
 suppressPackageStartupMessages({
   require(DEXSeq)
