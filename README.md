@@ -18,7 +18,7 @@ The directory contains three scripts:
 
 
 ```bash
-python dexseq_prepare_annotation2.py -f dm6_ens76.gtf dm6_ens76_flat.gff
+python dexseq_prepare_annotation2.py -f dm6_ens76_flat.gtf dm6_ens76.gtf dm6_ens76_flat.gff
 ```
 
 you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for featurecounts)
@@ -27,7 +27,7 @@ you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for f
 
 
 ```bash
-/path/to/subread-1.4.6-p2/bin/featureCounts -f -s 2 -p -T 40 -F GTF -a dm6_ens76_flat.gff -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
+/path/to/subread-1.4.6-p2/bin/featureCounts -f -s 2 -p -T 40 -F GTF -a dm6_ens76_flat.gtf -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
 
 ```
 
