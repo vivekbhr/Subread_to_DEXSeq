@@ -25,9 +25,13 @@ you will get a file "dm6_ens76_flat.gff" and another "dm6_ens76_flat.gtf" (for f
 
 **2) Count using Subread (command line)**
 
+We use the **-f** options to count reads overlapping features.
+
+We can use the **-O** option to count the reads overlapping to multiple exons (similar to DEXSeq_count).
+
 
 ```bash
-/path/to/subread-1.4.6-p2/bin/featureCounts -f -s 2 -p -T 40 -F GTF -a dm6_ens76_flat.gtf -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
+/path/to/subread-1.4.6-p2/bin/featureCounts -f -O -s 2 -p -T 40 -F GTF -a dm6_ens76_flat.gtf -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
 
 ```
 
