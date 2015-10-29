@@ -37,13 +37,13 @@ We can use the **-O** option to count the reads overlapping to multiple exons (s
 
 **3) Convert format**
 
-*These scripts require dplyr, argparser, and DEXSeq installed in your R..*
+*These scripts require dplyr, argparser, and DEXSeq installed in your R..* We can use **-t** option to use multiple threads. 
 
 On command line, do:
 
 
 ```bash
-Rscript Convert_SubreadOutput.R -f dm6_fCount.out -n "Cont_1,Cont_2,Test_1,Test_2" -o dex-like-output.out
+Rscript Convert_SubreadOutput.R -t 20 -f dm6_fCount.out -n "Cont_1,Cont_2,Test_1,Test_2" -o dex-like-output.out
 ```
 
 **4) load into DEXSeq**
