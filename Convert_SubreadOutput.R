@@ -20,42 +20,28 @@ samplenames <- argv$names # samplenames seperated by comma ,
 outfile <- argv$outfile
 out <- argv$out
 print("branch faster")
-## Read and count exons
-count_exons <- function(fcout,samplenames){
+
+system.time({
   # read the sorted Fcount output (excluding header and comment line)
   read.table(fcout,skip = 2) %>% dplyr::arrange(V1,V3,V4) %>% dplyr::select(-(V2:V6)) -> df
   colnames(df) <- paste0("V",1:ncol(df))
+  
   # add a count for exon number and create new df
-  genes <- unique(df[,1])
-  num <- length(genes)
-  oldDF <- vector("list",num)
-  for(i in 1:num){ # for each unique gene id in the file
-        filter(df,V1 == genes[i]) %>% mutate(V1 = paste0(V1,":",sprintf("%03.0f",1:nrow(.)))) -> oldDF[[i]]
-    # add exon number
+  genes <- as.character(unique(df[,1]))
+  getdata <- function(name,df){ # for each unique gene id in the file
+          filter(df,V1 == name) %>% mutate(V1 = paste0(V1,":",sprintf("%03.0f",1:nrow(.)))) %>% 
+                  return()
   }
-  oldDF <- do.call(rbind,oldDF)
-  # remove 1st empty line and print out
+  plyr::ldply(genes, getdata,df = df) -> outdf
+
+  # write back the output
+  sink(outfile)
   if(!(is.null(samplenames))){
-    unlist(strsplit(samplenames,",")) -> samplenames
-    colnames(oldDF) <- c("Geneid",samplenames)
+          unlist(strsplit(samplenames,",")) -> samplenames
+          cat("Geneid",samplenames,sep="\t")
+          cat("\n")
   }
-  #return(oldDF[2:nrow(oldDF),])
-  return(oldDF)
-}
+  write.table(outdf,quote = F,sep = "\t",row.names = F,col.names = F)
+  sink()
 
-#suppressWarnings({
-#  suppressMessages({
-#        compiler::cmpfun(count_exons) -> count_exons # compile the function
-#  }) 
-#})
-
-## writeback the output
-system.time({
-if(!(is.null(outfile))){
-  count_exons(fcout = fcout, samplenames = samplenames) %>%
-    write.table(outfile,quote = FALSE,sep = "\t",row.names = F) # test_like-dex.out
-  print("Done!")
-  } else {
-  stop("please provide output filename")
-  }
 })
