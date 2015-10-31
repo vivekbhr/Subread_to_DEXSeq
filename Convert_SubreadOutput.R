@@ -52,7 +52,6 @@ system.time({
           cat("Geneid",samplenames,sep="\t")
           cat("\n")
   }
-  write.table(outdf,quote = F,sep = "\t",row.names = F,col.names = F)
   sink()
-
+  write.table(outdf,outfile,quote = F,sep = "\t",row.names = F,col.names = F,append = TRUE)
 })
