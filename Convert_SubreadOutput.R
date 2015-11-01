@@ -43,8 +43,6 @@ system.time({
           parallel::mclapply(genes, getdata,df = df) %>% plyr::ldply(data.frame) -> outdf
   }
   
-
-
   # write back the output
   sink(outfile)
   if(!(is.null(samplenames))){
@@ -54,4 +52,5 @@ system.time({
   }
   sink()
   write.table(outdf,outfile,quote = F,sep = "\t",row.names = F,col.names = F,append = TRUE)
+  print("Done!")
 })
