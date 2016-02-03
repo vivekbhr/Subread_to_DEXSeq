@@ -1,19 +1,21 @@
+#!/usr/bin/env python
+
 import sys, collections, itertools, os.path, optparse, os # changed here to add sed
 
-optParser = optparse.OptionParser( 
-   
+optParser = optparse.OptionParser(
+
    usage = "python %prog [options] <in.gtf> <out.gff>",
-   
+
    description=
       "Script to prepare annotation for DEXSeq." +
       "This script takes an annotation file in Ensembl GTF format" +
       "and outputs a 'flattened' annotation file suitable for use " +
       "with the count_in_exons.py script ",
-      
-   epilog = 
+
+   epilog =
       "Written by Simon Anders (sanders@fs.tum.de), European Molecular Biology " +
       "Laboratory (EMBL). (c) 2010. Released under the terms of the GNU General " +
-      "Public License v3. Part of the 'DEXSeq' package." + 
+      "Public License v3. Part of the 'DEXSeq' package. " +
 	"Modified by Vivek Bhardwaj (just a bit!) to write featurecounts gtf as an option.")
 
 optParser.add_option( "-r", "--aggregate", type="choice", dest="aggregate",
@@ -39,8 +41,8 @@ if len( args ) != 2:
 try:
    import HTSeq
 except ImportError:
-   sys.stderr.write( "Could not import HTSeq. Please install the HTSeq Python framework\n" )   
-   sys.stderr.write( "available from http://www-huber.embl.de/users/anders/HTSeq\n" )   
+   sys.stderr.write( "Could not import HTSeq. Please install the HTSeq Python framework\n" )
+   sys.stderr.write( "available from http://www-huber.embl.de/users/anders/HTSeq\n" )
    sys.exit(1)
 
 
@@ -51,7 +53,7 @@ out_file = args[1]
 
 aggregateGenes = opts.aggregate == "yes"
 
-# Step 1: Store all exons with their gene and transcript ID 
+# Step 1: Store all exons with their gene and transcript ID
 # in a GenomicArrayOfSets
 
 exons = HTSeq.GenomicArrayOfSets( "auto", stranded=True )
@@ -89,7 +91,7 @@ if aggregateGenes == True:
 
 # Step 3: Go through the steps again to get the exonic sections. Each step
 # becomes an 'exonic part'. The exonic part is associated with an
-# aggregate gene, i.e., a gene set as determined in the previous step, 
+# aggregate gene, i.e., a gene set as determined in the previous step,
 # and a transcript set, containing all transcripts that occur in the step.
 # The results are stored in the dict 'aggregates', which contains, for each
 # aggregate ID, a list of all its exonic_part features.
@@ -110,12 +112,12 @@ for iv, s in exons.steps( ):
       else:
          aggregate_id = gene_id
    # Take one of the gene IDs, find the others via gene sets, and
-   # form the aggregate ID from all of them   
+   # form the aggregate ID from all of them
    else:
-      assert set( gene_id for gene_id, transcript_id in s ) <= gene_sets[ gene_id ] 
+      assert set( gene_id for gene_id, transcript_id in s ) <= gene_sets[ gene_id ]
       aggregate_id = '+'.join( gene_sets[ gene_id ] )
    # Make the feature and store it in 'aggregates'
-   f = HTSeq.GenomicFeature( aggregate_id, "exonic_part", iv )   
+   f = HTSeq.GenomicFeature( aggregate_id, "exonic_part", iv )
    f.source = os.path.basename( sys.argv[0] )
 #   f.source = "camara"
    f.attr = {}
@@ -136,27 +138,27 @@ for l in aggregates.values():
          raise ValueError, "Same name found on two chromosomes: %s, %s" % ( str(l[i]), str(l[i+1]) )
       if l[i].iv.strand != l[i+1].iv.strand:
          raise ValueError, "Same name found on two strands: %s, %s" % ( str(l[i]), str(l[i+1]) )
-   aggr_feat = HTSeq.GenomicFeature( l[0].name, "aggregate_gene", 
-      HTSeq.GenomicInterval( l[0].iv.chrom, l[0].iv.start, 
+   aggr_feat = HTSeq.GenomicFeature( l[0].name, "aggregate_gene",
+      HTSeq.GenomicInterval( l[0].iv.chrom, l[0].iv.start,
          l[-1].iv.end, l[0].iv.strand ) )
    aggr_feat.source = os.path.basename( sys.argv[0] )
    aggr_feat.attr = { 'gene_id': aggr_feat.name }
    for i in xrange( len(l) ):
       l[i].attr['exonic_part_number'] = "%03d" % ( i+1 )
    aggregate_features.append( aggr_feat )
-      
-      
+
+
 # Step 5: Sort the aggregates, then write everything out
 
 aggregate_features.sort( key = lambda f: ( f.iv.chrom, f.iv.start ) )
 
-fout = open( out_file, "w" ) 
+fout = open( out_file, "w" )
 for aggr_feat in aggregate_features:
    fout.write( aggr_feat.get_gff_line() )
    for f in aggregates[ aggr_feat.name ]:
       fout.write( f.get_gff_line() )
 
-fout.close()      
+fout.close()
 
 ## modify file to print gtf if featurecounts gtf requested
 fcountgtf = opts.fcgtf
