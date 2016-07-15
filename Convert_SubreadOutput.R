@@ -23,8 +23,6 @@ outfile <- argv$outfile
 out <- argv$out
 threads <-argv$threads
 
-print("branch faster")
-
 system.time({
   # read the sorted Fcount output (excluding header and comment line)
   read.table(fcout,skip = 2) %>% dplyr::arrange(V1,V3,V4) %>% dplyr::select(-(V2:V6)) -> df
