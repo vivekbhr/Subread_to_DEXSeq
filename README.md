@@ -1,6 +1,5 @@
 # Subread_to_DEXSeq
 Vivek Bhardwaj  
-`r date()`  
 
 ## These functions provide a way to use featurecounts output for DEXSeq
 
