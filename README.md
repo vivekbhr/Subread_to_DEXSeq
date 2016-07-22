@@ -1,6 +1,5 @@
 # Subread_to_DEXSeq
 Vivek Bhardwaj  
-16.10.2015  
 
 ## These functions provide a way to use featurecounts output for DEXSeq
 
@@ -8,14 +7,19 @@ The directory contains three scripts:
 
 1) **dexseq_prepare_annotation2.py** : It's same as the "dexseq_prepare_annotation.py" that comes with DEXSeq, but with an added option to output featureCounts-readable GTF file.
 
-2) **Convert_SubreadOutput.R** : It's an Rscript to format featureCounts output file so that It looks like DEXSeq-counts output (with exon-IDs included).
-
-3) **load_SubreadOutput.R** : Provided a function "DEXSeqDataSetFromFeatureCounts", to load the output of "Convert_SubreadOutput.R" as a dexSeq object.
+2) **load_SubreadOutput.R** : Provides a function "DEXSeqDataSetFromFeatureCounts", to load the output of "Convert_SubreadOutput.R" as a dexSeq dataset (dxd) object.
 
 ## Usage example
 
 **1) Prepare annotation**
 
+Syntax :
+
+```bash
+python dexseq_prepare_annotation2.py -f <featurecounts.gtf> <input.gtf> <dexseq_counts.gff>
+```
+
+Example :
 
 ```bash
 python dexseq_prepare_annotation2.py -f dm6_ens76_flat.gtf dm6_ens76.gtf dm6_ens76_flat.gff
@@ -29,26 +33,19 @@ We use the **-f** options to count reads overlapping features.
 
 We can use the **-O** option to count the reads overlapping to multiple exons (similar to DEXSeq_count).
 
+
 ```bash
-/path/to/subread/bin/featureCounts -f -O -s 2 -p -T 40 -F GTF -a dm6_ens76_flat.gtf -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
+/path/to/subread/bin/featureCounts -f -O -s 2 -p -T 40 -F GTF -t exonic_part -a dm6_ens76_flat.gtf -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
 
 ```
 
-**3) Convert format**
+**3) load into DEXSeq****
 
-*These scripts require dplyr, argparser, and DEXSeq installed in your R..* We can use **-t** option to use multiple threads. 
+*This script requires dplyr, and DEXSeq installed in your R..*
 
-On command line, do:
+In R prepare a sampleData data.frame, which contains sample names used for featurecounts as rownames, plus condition, and other variables you want to use for DEXSeq design matrix.
 
-
-```bash
-Rscript Convert_SubreadOutput.R -t 20 -f dm6_fCount.out -n "Cont_1,Cont_2,Test_1,Test_2" -o dex-like-output.out
-```
-
-**4) load into DEXSeq**
-
-In R do:
-
+Example :
 
 ```r
 source("load_SubreadOutput.R")
@@ -56,6 +53,8 @@ samp <- data.frame(row.names = c("cont_1","cont_2","test_1","test_2"), condition
 dxd.fc <- DEXSeqDataSetFromFeatureCounts("dex-like-output.out",
                                          flattenedfile = "dm6_ens76_flat.gtf",sampleData = samp)
 ```
+
+This will create a **dxd** object that you can use for DEXSeq analysis.
 
 ## Results
 
@@ -69,8 +68,6 @@ In **unique** mode, fragments overlapping multiple features are not counted, whi
 
 #### Results
 
-**Number of differentially expressed exons with 10% FDR**. The output from featurecounts is highly similar to DEXSeq_Count, when we count the multi-feature overlapping reads **(-O option)**. 
+**Number of differentially expressed exons with 10% FDR**. The output from featurecounts is highly similar to DEXSeq_Count, when we count the multi-feature overlapping reads **(-O option)**.
 
-<img src="./images/overlaps_DEX-FC.png" , width=400, height=400>
-
-
+<img src="./images/intersects.png" , width=400, height=400>
