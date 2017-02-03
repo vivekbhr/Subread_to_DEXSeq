@@ -7,7 +7,7 @@ The directory contains two scripts:
 
 1) **dexseq_prepare_annotation2.py** : It's same as the "dexseq_prepare_annotation.py" that comes with DEXSeq, but with an added option to output featureCounts-readable GTF file.
 
-2) **load_SubreadOutput.R** : Provides a function "DEXSeqDataSetFromFeatureCounts", to load the output of "Convert_SubreadOutput.R" as a dexSeq dataset (dxd) object.
+2) **load_SubreadOutput.R** : Provides a function "DEXSeqDataSetFromFeatureCounts", to load the output of featureCounts as a dexSeq dataset (dxd) object.
 
 ## Usage example
 
@@ -50,7 +50,7 @@ Example :
 ```r
 source("load_SubreadOutput.R")
 samp <- data.frame(row.names = c("cont_1","cont_2","test_1","test_2"), condition = rep(c("control","trt"),each=2))
-dxd.fc <- DEXSeqDataSetFromFeatureCounts("dex-like-output.out",
+dxd.fc <- DEXSeqDataSetFromFeatureCounts("dm6_fCount.out",
                                          flattenedfile = "dm6_ens76_flat.gtf",sampleData = samp)
 ```
 
