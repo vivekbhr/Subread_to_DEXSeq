@@ -3,7 +3,7 @@ Vivek Bhardwaj
 
 ## These functions provide a way to use featurecounts output for DEXSeq
 
-The directory contains three scripts:
+The directory contains two scripts:
 
 1) **dexseq_prepare_annotation2.py** : It's same as the "dexseq_prepare_annotation.py" that comes with DEXSeq, but with an added option to output featureCounts-readable GTF file.
 
