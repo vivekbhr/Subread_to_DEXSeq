@@ -40,6 +40,9 @@ DEXSeqDataSetFromFeatureCounts <- function (countfile, sampleData,
                 aggregates$attr <- gsub("\"|=|;", "", aggregates$attr)
                 aggregates$gene_id <- sub(".*gene_id\\s(\\S+).*", "\\1", 
                                           aggregates$attr)
+                # trim the gene_ids to 255 chars in order to match with featurecounts
+                aggregates$gene_id <- substr(aggregates$gene_id,1,255)
+                
                 transcripts <- gsub(".*transcripts\\s(\\S+).*", "\\1", 
                                     aggregates$attr)
                 transcripts <- strsplit(transcripts, "\\+")
@@ -49,6 +52,7 @@ DEXSeqDataSetFromFeatureCounts <- function (countfile, sampleData,
                                                                           end = aggregates$end), strand = aggregates$strand)
                 names(exoninfo) <- paste(aggregates$gene_id, exonids, 
                                          sep = ":E")
+                
                 names(transcripts) <- names(exoninfo) ## bug in their code. was rownames(exoninfo)
                 if (!all(rownames(dcounts) %in% names(exoninfo))) {
                         stop("Count files do not correspond to the flattened annotation file")
