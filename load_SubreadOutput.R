@@ -41,6 +41,10 @@ DEXSeqDataSetFromFeatureCounts <- function (countfile, sampleData,
                 aggregates$gene_id <- sub(".*gene_id\\s(\\S+).*", "\\1", 
                                           aggregates$attr)
                 # trim the gene_ids to 255 chars in order to match with featurecounts
+                longIDs <- sum(nchar(unique(aggregates$gene_id)) > 255)
+                warning(paste0(longIDs, 
+                               " aggregate geneIDs were found truncated in featureCounts output"), 
+                        call. = FALSE)
                 aggregates$gene_id <- substr(aggregates$gene_id,1,255)
                 
                 transcripts <- gsub(".*transcripts\\s(\\S+).*", "\\1", 
