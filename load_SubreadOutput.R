@@ -57,7 +57,7 @@ DEXSeqDataSetFromFeatureCounts <- function (countfile, sampleData,
                 names(exoninfo) <- paste(aggregates$gene_id, exonids, 
                                          sep = ":E")
                 
-                names(transcripts) <- names(exoninfo) ## bug in their code. was rownames(exoninfo)
+                names(transcripts) <- names(exoninfo) 
                 if (!all(rownames(dcounts) %in% names(exoninfo))) {
                         stop("Count files do not correspond to the flattened annotation file")
                 }

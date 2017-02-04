@@ -75,7 +75,3 @@ In **unique** mode, fragments overlapping multiple features are not counted, whi
 
 <img src="./images/intersects.png" , width=400, height=400>
 
-
-## Caution
-
-Featurecounts strips the GeneID column to 255 characters, while with DEXSeq way of naming flattened gene models (GeneID1+GeneID2+..), sometimes the gene IDs are more than 255 characters. This will create an error while using the **flattenedfile** option in **DEXSeqDataSetFromFeatureCounts**. This doesn't affect the analysis results, but **plotDEXSeq** will not plot the transcripts if you dont' provide the flattened file.
