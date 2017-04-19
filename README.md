@@ -67,7 +67,7 @@ In **unique** mode, fragments overlapping multiple features are not counted, whi
 
 #### Dispersion Estimates
 
-<img src="./images/dispESt_combined.png", width=1000, height=400>
+![](./images/dispESt_combined.png)
 
 #### Results
 
