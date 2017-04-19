@@ -73,5 +73,5 @@ In **unique** mode, fragments overlapping multiple features are not counted, whi
 
 **Number of differentially expressed exons with 10% FDR**. The output from featurecounts is highly similar to DEXSeq_Count, when we count the multi-feature overlapping reads **(-O option)**.
 
-![](./images/intersects.png){ width=50% }
+![](./images/intersects.png)
 
