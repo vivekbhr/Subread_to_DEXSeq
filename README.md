@@ -36,7 +36,7 @@ We can use the **-O** option to count the reads overlapping to multiple exons (s
 
 ```bash
 /path/to/subread/bin/featureCounts -f -O -s 2 -p -T 40 \
--F GTF -t exonic_part -a dm6_ens76_flat.gtf \
+-F GTF -a dm6_ens76_flat.gtf \
 -o dm6_fCount.out Cont_1.bam Cont_2.bam Test_1.bam Test_2.bam
 
 ```
