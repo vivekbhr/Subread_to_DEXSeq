@@ -131,19 +131,23 @@ for iv, s in exons.steps( ):
 
 aggregate_features = []
 for l in aggregates.values():
-   for i in xrange( len(l)-1 ):
+   for i in range( len(l)-1 ):
       assert l[i].name == l[i+1].name, str(l[i+1]) + " has wrong name"
       assert l[i].iv.end <= l[i+1].iv.start, str(l[i+1]) + " starts too early"
       if l[i].iv.chrom != l[i+1].iv.chrom:
-         raise ValueError, "Same name found on two chromosomes: %s, %s" % ( str(l[i]), str(l[i+1]) )
+         raise ValueError(
+            "Same name found on two chromosomes: %s, %s" % ( str(l[i]), str(l[i+1]) )
+         )
       if l[i].iv.strand != l[i+1].iv.strand:
-         raise ValueError, "Same name found on two strands: %s, %s" % ( str(l[i]), str(l[i+1]) )
+         raise ValueError(
+            "Same name found on two strands: %s, %s" % ( str(l[i]), str(l[i+1]) )
+         )
    aggr_feat = HTSeq.GenomicFeature( l[0].name, "aggregate_gene",
       HTSeq.GenomicInterval( l[0].iv.chrom, l[0].iv.start,
          l[-1].iv.end, l[0].iv.strand ) )
    aggr_feat.source = os.path.basename( sys.argv[0] )
    aggr_feat.attr = { 'gene_id': aggr_feat.name }
-   for i in xrange( len(l) ):
+   for i in range( len(l) ):
       l[i].attr['exonic_part_number'] = "%03d" % ( i+1 )
    aggregate_features.append( aggr_feat )
 
